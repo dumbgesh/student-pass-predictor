@@ -12,11 +12,12 @@ Predict whether a student will pass or fail based on:
 
 Logistic Regression
 
-## Features
+## Features and Coefficients
 
-- Study_Hours_per_Week
-- Attendance_Rate
-- Past_Exam_Scores
+- Study_Hours_per_Week: 0.1231
+- Attendance_Rate: 0.1136
+- Past_Exam_Scores: 0.1119
+- Bias: -20.88630243768503
 
 ## Results
 
