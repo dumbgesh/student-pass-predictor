@@ -21,13 +21,14 @@ Logistic Regression
 
 ## Results
 
-Accuracy: 80.99%
+- Accuracy: 80.99%
 
-Confusion Matrix:
+### Confusion Matrix
+
 [[58 13]
  [14 57]]
 
- ![Confusion Matrix](confusion_matrix.png)
+![Confusion Matrix](confusion_matrix.png)
 
 ## Key Learnings
 
