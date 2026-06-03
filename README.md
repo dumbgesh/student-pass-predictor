@@ -27,7 +27,7 @@ Confusion Matrix:
 [[58 13]
  [14 57]]
 
- ![Confusion Matrix](images/confusion_matrix.png)
+ ![Confusion Matrix](confusion_matrix.png)
 
 ## Key Learnings
 
