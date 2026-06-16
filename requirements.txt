@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 pandas
 numpy
 scikit-learn
@@ -6,8 +5,3 @@ fastapi
 uvicorn
 joblib
 pydantic
-=======
-pandas
-numpy
-scikit-learn
->>>>>>> 0dc5950d817390e8f7bbcf6470b6e1b8541548e0
