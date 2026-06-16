@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Pass Predictor</title>
+    <!-- Basic Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Student Pass Predictor</h1>
+            <p class="text-gray-600 text-sm">
+                Advanced logistic regression logic to forecast whether a student will pass or fail.
+            </p>
+        </div>
+
+        <div class="space-y-6">
+            
+            <!-- Study Hours -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">
+                    Study Hours / Week: 
+                    <span id="hours-val" class="font-bold text-blue-600">10</span>
+                </label>
+                <input type="range" id="hours" min="0" max="40" value="10" class="w-full" oninput="updateLabel('hours', 'hours-val')">
+            </div>
+
+            <!-- Attendance -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">
+                    Attendance Rate (%): 
+                    <span id="attendance-val" class="font-bold text-blue-600">75</span>
+                </label>
+                <input type="range" id="attendance" min="0" max="100" value="75" class="w-full" oninput="updateLabel('attendance', 'attendance-val')">
+            </div>
+
+            <!-- Previous Score -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">
+                    Previous Exam Score (%): 
+                    <span id="score-val" class="font-bold text-blue-600">60</span>
+                </label>
+                <input type="range" id="score" min="0" max="100" value="60" class="w-full" oninput="updateLabel('score', 'score-val')">
+            </div>
+
+            <!-- Submit Button -->
+            <button onclick="predictStudent()" id="predict-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                Analyze Outcome
+            </button>
+
+            <!-- Result Box -->
+            <div id="result-area" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg hidden text-center">
+                <p class="text-gray-600 font-medium mb-1">Prediction Output</p>
+                <h2 id="prediction-result" class="text-3xl font-bold mb-2">PASS</h2>
+                <p class="text-gray-600">Confidence Score: <span id="probability-result" class="font-bold text-gray-800">0%</span></p>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // Simple function to update the text labels when slider moves
+        function updateLabel(inputId, labelId) {
+            document.getElementById(labelId).innerText = document.getElementById(inputId).value;
+        }
+
+        // Fetch prediction from FastAPI
+        async function predictStudent() {
+            const btn = document.getElementById('predict-btn');
+            btn.innerText = "Analyzing...";
+            btn.disabled = true;
+
+            try {
+                // Get values from inputs
+                const study_hours = Number(document.getElementById("hours").value);
+                const attendance = Number(document.getElementById("attendance").value);
+                const previous_score = Number(document.getElementById("score").value);
+
+                // Make API request
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ study_hours, attendance, previous_score })
+                });
+
+                const data = await response.json();
+
+                // Show the result area
+                const resultArea = document.getElementById("result-area");
+                resultArea.classList.remove("hidden");
+
+                // Update text
+                const predElement = document.getElementById("prediction-result");
+                predElement.innerText = data.prediction.toUpperCase();
+
+                // Simple color logic
+                if (data.prediction === "Pass") {
+                    predElement.className = "text-3xl font-bold mb-2 text-green-600";
+                } else {
+                    predElement.className = "text-3xl font-bold mb-2 text-red-600";
+                }
+
+                // Format probability
+                const probPercent = (data.pass_probability * 100).toFixed(1);
+                document.getElementById("probability-result").innerText = probPercent + "%";
+                
+            } catch (error) {
+                console.error("Error making prediction:", error);
+                alert("Failed to get prediction from server.");
+            } finally {
+                // Reset button
+                btn.innerText = "Analyze Outcome";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
