@@ -1,39 +1,42 @@
 # Student Pass Predictor
 
-## Problem Statement
+## Overview
 
 Predict whether a student will pass or fail based on:
 
-- Study Hours per Week
-- Attendance Rate
-- Past Exam Scores
+* Study Hours per Week
+* Attendance Rate
+* Previous Exam Scores
 
-## Model Used
+## Model
 
-Logistic Regression
-
-## Features and Coefficients
-
-- Study_Hours_per_Week: 0.1231
-- Attendance_Rate: 0.1136
-- Past_Exam_Scores: 0.1119
-- Bias: -20.88630243768503
+* Logistic Regression
+* Feature Scaling using StandardScaler
+* Binary Classification
 
 ## Results
 
-- Accuracy: 80.99%
+* Accuracy: 80.99%
 
 ### Confusion Matrix
 
 [[58 13]
- [14 57]]
+[14 57]]
 
 ![Confusion Matrix](confusion_matrix.png)
 
+## Deployment
+
+* FastAPI-based prediction service
+* Interactive frontend with slider inputs
+* Deployed on Render
+
 ## Key Learnings
 
-- Logistic Regression
-- Sigmoid Function
-- Binary Cross Entropy
-- Gradient Descent
-- Model Evaluation
+* Logistic Regression
+* Sigmoid Function
+* Binary Cross Entropy (Log Loss)
+* Gradient Descent
+* Feature Scaling
+* Model Evaluation
+* FastAPI Deployment
